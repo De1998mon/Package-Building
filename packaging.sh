@@ -1,27 +1,26 @@
 #!/bin/bash
 
-cd /home/deb-pkg/litecrypt-0.0.8
+cd /home/Package-Building/deb-pkg/litecrypt-*
 
-python3 setup.py --command-packages=stdeb.command sdist_dsc
+python3 setup.py --command-packages=stdeb.command sdist_dsc --build-depends="python3 (>= 3.6)"
 
-cd /home/deb-pkg/litecrypt-0.0.8/deb_dist/litecrypt-0.0.8/
+cd /home/Package-Building/deb-pkg/litecrypt-*/deb_dist/litecrypt-*/
 
 dpkg-buildpackage -us -uc -rfakeroot
 
-# Пакет .deb находится по пути /home/deb-pkg/litecrypt-0.0.8/deb_dist/python3-litecrypt_0.0.8-1_all.deb
+# Пакет .deb находится по пути /home/Package-Building/deb-pkg/litecrypt-0.0.8/deb_dist/python3-litecrypt_0.0.8-1_all.deb
 
-cd /home/rpm-pkg/litecrypt-0.0.8
+cd /home/Package-Building/rpm-pkg/litecrypt-*
 
-python3 setup.py bdist_rpm
+python3 setup.py bdist_rpm --requires="python3 >= 3.6"
 
-# Пакеты .rpm находится по пути /home/rpm-pkg/litecrypt-0.0.8/dist/litecrypt-0.0.8-1.noarch.rpm
 
-cd /home
+# Пакеты .rpm находится по пути /home/Package-Building/rpm-pkg/litecrypt-*/dist/litecrypt-0.0.8-1.noarch.rpm
+
+cd /home/Package-Building
 
 mkdir packages
 
-cp ./rpm-pkg/litecrypt-0.0.8/dist/litecrypt-0.0.8-1.src.rpm ./packages
+cp -r ./rpm-pkg/litecrypt-*/dist/*.rpm ./packages
 
-cp ./rpm-pkg/litecrypt-0.0.8/dist/litecrypt-0.0.8-1.noarch.rpm ./packages
-
-cp ./deb-pkg/litecrypt-0.0.8/deb_dist/python3-litecrypt_0.0.8-1_all.deb ./packages
+cp -r ./deb-pkg/litecrypt-*/deb_dist/*.deb ./packages
